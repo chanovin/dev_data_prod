@@ -1,0 +1,58 @@
+---
+title: "2010 Census Map"
+author: "Vincent Chan"
+date: "March 21, 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, results = FALSE, message = FALSE)
+```
+
+## Population Change
+
+The following map is generated solely from the US Census Bureau's publicly available data.
+
+```{r libs}
+library(rgdal)
+library(leaflet)
+```
+
+```{r censusmap}
+# Download .shp file on the web:
+download.file("http://www2.census.gov/geo/tiger/GENZ2010/gz_2010_us_040_00_500k.zip",
+              destfile="2010-census-500k.zip")
+unzip("2010-census-500k.zip")
+# Read the file with rgdal
+states <- readOGR( dsn= getwd() , layer="gz_2010_us_040_00_500k")
+
+# Read population change data 2000-2010 from web
+popchg <- read.csv(url("https://www.census.gov/2010census/csv/pop_change.csv"), skip=2)
+# Rename the index variable
+names(popchg)[1] <- "NAME"
+# Merge the data
+popshp <- merge(states,popchg,by="NAME")
+
+# Set colors
+colpal <- colorNumeric(palette="YlOrRd", domain=popshp$X2010_CHANGE)
+# Set labels
+labels <- sprintf(paste("<strong>",popshp$NAME,"</strong><br/><b>2010 Pop:</b>&ensp;",popshp$X2010_POPULATION,"<br/><b>Change from 2000:</b>&emsp;",
+                        popshp$X2010_CHANGE,"%%", sep="")) %>%
+  lapply(htmltools::HTML)
+
+map2010 <- leaflet(popshp) %>%
+  setView(-92, 34, 3.85) %>%
+  addTiles() %>%
+  addPolygons(color = "#444444", weight = 1, smoothFactor = 0.5,
+              opacity = 1.0, fillOpacity = 0.5, fillColor = colpal(popshp$X2010_CHANGE),
+              highlight = highlightOptions(weight = 5, color = "#666", dashArray = "",
+                                           fillOpacity = 0.7, bringToFront = TRUE),
+              label = labels,
+              labelOptions = labelOptions(
+                      style = list("font-weight" = "normal", padding = "3px 8px"),
+                      textsize = "15px", direction = "auto")
+              ) %>%
+  addLegend("bottomright", pal=colpal, values=popshp$X2010_CHANGE, title="2000-2010 Pop. Change (%)",
+            opacity=1)
+map2010
+```
