@@ -24,7 +24,7 @@ download.file("http://www2.census.gov/geo/tiger/GENZ2010/gz_2010_us_040_00_500k.
               destfile="2010-census-500k.zip")
 unzip("2010-census-500k.zip")
 # Read the file with rgdal
-states <- readOGR( dsn= getwd() , layer="gz_2010_us_040_00_500k")
+states <- readOGR( dsn= getwd() , layer="gz_2010_us_040_00_500k", verbose=FALSE)
 
 # Read population change data 2000-2010 from web
 popchg <- read.csv(url("https://www.census.gov/2010census/csv/pop_change.csv"), skip=2)
