@@ -56,3 +56,7 @@ map2010 <- leaflet(popshp) %>%
             opacity=1)
 map2010
 ```
+
+## Rmd File
+The R markdown file is available at the following repository:
+https://github.com/chanovin/dev_data_prod
