@@ -1,0 +1,28 @@
+---
+title: "Week 3 Developing Data Products Assignment"
+author: "Vincent Chan"
+date: "March 26, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(plotly)
+library(datasets)
+
+```
+## Intercountry lifecycle savings data
+
+```{r lifecycle,warning=FALSE}
+lcs = LifeCycleSavings
+lcs$agebalance = lcs$pop75-lcs$pop15
+xlab <- list(title="per-capita disposable income")
+ylab <- list(title="savings (% of disposable income)")
+plot_ly(lcs, x= ~dpi, y= ~sr, color=~agebalance, type = "scatter", mode="markers") %>%
+  layout(xaxis=xlab, yaxis=ylab)
+  
+```
+
+## About the plot
+
+This is plot shows intercountry life-cycle savings data from the `datasets` package. Age balance shows the percentage point difference between population aged 75+ and 15-. (Larger numbers represent populations skewing older.)
