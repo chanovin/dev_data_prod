@@ -1,0 +1,66 @@
+---
+title: 'Estimating Abalone Age: <br/> A Shiny App'
+author: "Vincent Chan"
+date: "March 30, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(shiny)
+library(caret)
+library(lattice)
+library(ggplot2)
+library(ipred)
+library(plyr)
+library(e1071)
+```
+
+## Why?
+
+Abalone age is difficult to observe without harming the animal.
+
+Using existing abalone data from [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Abalone), we can create a model to estimate
+the number of rings on an abalone and thereby its age.
+
+We can build this model using only non-invasive measurements.
+
+## Attributes & Model-building
+
+Possible attributes for model-building include:
+
+- Length
+- Width
+- Diameter
+- Whole weight
+
+Using an analysis of variance, the data indicate that length, width, and diameter best account for the variation in number of rings. Whole weight is very weakly correlated with abalone age.
+
+By converting rings into a factor (because they are discrete and partial-rings cannot be counted), we found an excellent model fit using a bagged CART learning method.
+
+## Model Error
+
+This model provided over 84% in-sample accuracy.
+
+```{r calcs, echo = FALSE, warning=FALSE, cache=TRUE}
+abalone <- read.csv(url("http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data"),
+                    header=FALSE)
+names(abalone) <- c("sex","length","diameter","height","whole_wt","shuck_wt","visc_wt","shell_wt","rings")
+abalone$rings <- as.factor(abalone$rings)
+fit <- train(rings ~ length + diameter + height, data=abalone, method="treebag")
+pred <- predict(fit, abalone)
+acc <- as.numeric(pred) - as.numeric(abalone$rings)
+errors=acc[which(acc!=0)]
+```
+
+For the incorrect in-sample predictions, the mean error was `r mean(errors)`, and the standard deviation of the errors was `r sd(errors)`. A histogram of the incorrect predictions is below.
+
+```{r histogram, fig.height=4}
+hist(errors)
+```
+
+## Links
+
+- [Abalone Shiny App]
+- [Source file repository]
+- [Pitch presentation]

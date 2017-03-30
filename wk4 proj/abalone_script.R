@@ -1,0 +1,10 @@
+library(caret)
+abalone <- read.csv(url("http://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data"),
+                    header=FALSE)
+names(abalone) <- c("sex","length","diameter","height","whole_wt","shuck_wt","visc_wt","shell_wt","rings")
+abalone$rings <- as.factor(abalone$rings)
+fit <- train(rings ~ length + diameter + height, data=abalone, method="treebag")
+pred <- predict(fit, abalone)
+acc <- as.numeric(pred) - as.numeric(abalone$rings)
+boxplot(acc)
+confusionMatrix(pred,abalone$rings)

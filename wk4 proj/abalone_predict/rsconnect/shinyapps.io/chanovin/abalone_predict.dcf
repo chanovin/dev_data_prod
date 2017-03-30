@@ -1,0 +1,10 @@
+name: abalone_predict
+title: abalone_predict
+account: chanovin
+server: shinyapps.io
+appId: 168290
+bundleId: 769773
+url: https://chanovin.shinyapps.io/abalone_predict/
+when: 1490835981.72477
+asMultiple: FALSE
+asStatic: FALSE
