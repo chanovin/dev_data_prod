@@ -3,6 +3,7 @@ title: 'Estimating Abalone Age: <br/> A Shiny App'
 author: "Vincent Chan"
 date: "March 30, 2017"
 output: ioslides_presentation
+font-family: "Helvetica"
 ---
 
 ```{r setup, include=FALSE}
@@ -61,7 +62,10 @@ hist(errors)
 
 ## Links
 
-- [Abalone Shiny App](https://chanovin.shinyapps.io/abalone_predict/)
-- [Pitch presentation](https://chanovin.github.io/dev_data_prod//wk4 proj/abalone_pitch.html)
-- [Source file repository](https://github.com/chanovin/dev_data_prod/tree/master/wk4%20proj)
-- [Source data c/o UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Abalone)
+[Abalone Shiny App](https://chanovin.shinyapps.io/abalone_predict/)
+
+[Pitch presentation](https://chanovin.github.io/dev_data_prod//wk4 proj/abalone_pitch.html)
+
+[Source file repository](https://github.com/chanovin/dev_data_prod/tree/master/wk4%20proj)
+
+[Source data c/o UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Abalone)
