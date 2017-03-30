@@ -22,7 +22,7 @@ library(e1071)
 Abalone age is difficult to observe without harming the animal.
 
 Using existing abalone data from [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Abalone), we can create a model to estimate
-the number of rings on an abalone and thereby its age.
+the number of rings on an abalone and thereby its age. (For abalone, age is equal to the number of rings plus 1.5)
 
 We can build this model using only non-invasive measurements.
 
